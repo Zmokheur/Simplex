@@ -51,7 +51,7 @@ $LOADTIME = microtime(TRUE);
 // Choose a language. See below in the language section for options.
 // Default: $CONFIG['confLang'] = "en";
 //
-$CONFIG['confLang'] = "en";
+$CONFIG['confLang'] = "fr";
 
 /*
  * USER INTERFACE
@@ -1907,6 +1907,8 @@ class Simplex
 
 <!-- Bootstrap -->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/darkly/bootstrap.min.css" rel="stylesheet">
+
 
 <style>
 /* Fonts from Google Fonts */
@@ -2034,28 +2036,62 @@ input[type="color"]:focus,
 <![endif]-->
 </head>
 <body class="font-sans-serif">
-<?php
+
+
+
+
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+      
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <?php
 if(Simplex::getConfig('confShowHeader') == true)
 {
 	?>
-<header class="header-wrapper">
-<div class="container">
-<div class="row">
-<h3 class="no-strong text-center">
-<a href="<?php print $this->makeLink(false, null, null, null, "");?>"><span><?php if(Simplex::getConfig('confTitle') != null) print Simplex::getConfig('confTitle');?></span></a>
+<a  class="navbar-brand" href="<?php print $this->makeLink(false, null, null, null, "");?>"><span><?php if(Simplex::getConfig('confTitle') != null) print Simplex::getConfig('confTitle');?></span>
 <?php
 	if(Simplex::getConfig("confTitleSub") != null && is_array(Simplex::getConfig("confTitleSub")) && count(Simplex::getConfig("confTitleSub")) > 0)
 	{
 		$confTitleSub = Simplex::getConfig("confTitleSub");
 	?>
-<span><small class="no-strong"><?php print $confTitleSub[array_rand($confTitleSub)];?></small></span>
+<span><small class="no-strong"><?php print $confTitleSub[array_rand($confTitleSub)];?></small></span></a>
 <?php
 	}
 	?>
-</h3>
-</div>
-</div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">       
+          <ul class="nav navbar-nav navbar-right">
+			
+
+<li><a href="?dir=/#simplex"><?php print $this->getString("langInfoRoot");?></a> </li>
+<?php
+		for($i = 0; $i < count($this->location->path); $i++)
+		{
+			?>
+<li <?php if($i == count($this->location->path)-1 ){ ?> class="active" <?php }?>><a href="<?php print $this->makeLink(false, null, null, null, $this->location->getDir(false, true, false, count($this->location->path) - $i - 1));?>#simplex"><?php print $this->location->getPathLink($i, true);?></a> </li>
+<?php
+		}
+		?>
+
+
+
+            
+          </ul>
+        </div><!-- /.navbar-collapse -->
+        
+      </div><!-- /.container -->
+    </nav>
 </header>
+
 
 <?php
 }
@@ -2104,21 +2140,6 @@ else
 	if(Simplex::getConfig('confShowBreadcrumb') == true)
 	{
 		?>
-<div class="row">
-<div class="col-xs-12">
-<p>
-<a href="?dir=/#simplex"><?php print $this->getString("langInfoRoot");?></a> /
-<?php
-		for($i = 0; $i < count($this->location->path); $i++)
-		{
-			?>
-<a href="<?php print $this->makeLink(false, null, null, null, $this->location->getDir(false, true, false, count($this->location->path) - $i - 1));?>#simplex"><?php print $this->location->getPathLink($i, true);?></a> /
-<?php
-		}
-		?>
-</p>
-</div>
-</div>
 
 <?php
 	}
